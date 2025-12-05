@@ -1,4 +1,5 @@
 import Hero from "@/components/modules/Home/Hero";
+import HowItWorks from "@/components/modules/Home/HowItWorks";
 import Head from "next/head";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
       </Head>
       <main>
         <Hero />
+        <HowItWorks />
       </main>
     </>
   );
