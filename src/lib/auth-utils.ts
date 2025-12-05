@@ -1,4 +1,4 @@
-export type UserRole = "ADMIN" | "HOST" | "USER";
+export type PersonRole = "ADMIN" | "HOST" | "USER";
 
 export type RouteConfig = {
     exact: string[]
@@ -61,7 +61,7 @@ export const getRouteOwner = (pathname: string): "ADMIN" | "HOST" | "USER" | "CO
     return null
 }
 
-export const getDefaultDashboardRoute = (role: UserRole): string => {
+export const getDefaultDashboardRoute = (role: PersonRole): string => {
     if (role === "ADMIN") {
         return "/admin/dashboard";
     }
@@ -74,7 +74,7 @@ export const getDefaultDashboardRoute = (role: UserRole): string => {
     return "/"
 }
 
-export const isValidRedirectForRole = (redirectPath: string, role: UserRole): boolean => {
+export const isValidRedirectForRole = (redirectPath: string, role: PersonRole): boolean => {
     const routeOwner = getRouteOwner(redirectPath);
 
     if (routeOwner === null || routeOwner === "COMMON") {

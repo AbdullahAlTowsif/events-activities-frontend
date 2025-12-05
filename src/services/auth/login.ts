@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
-import { getDefaultDashboardRoute, isValidRedirectForRole, UserRole } from "@/lib/auth-utils";
+import { getDefaultDashboardRoute, isValidRedirectForRole, PersonRole } from "@/lib/auth-utils";
 import { serverFetch } from "@/lib/server-fetch";
 import { zodValidator } from "@/lib/zodValidator";
 import { loginValidationZodSchema } from "@/zod/auth.validation";
@@ -85,7 +85,7 @@ export const loginPerson = async (_currentState: any, formData: any): Promise<an
 
         }
 
-        const userRole: UserRole = verifiedToken.role;
+        const userRole: PersonRole = verifiedToken.role;
 
         if (!result.success) {
             throw new Error(result.message || "Login failed");
