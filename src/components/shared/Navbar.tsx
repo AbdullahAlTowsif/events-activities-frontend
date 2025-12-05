@@ -1,3 +1,4 @@
+// components/layout/Navbar.tsx - Updated
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
@@ -8,6 +9,7 @@ import { getCookie } from "@/services/auth/tokenHandlers";
 import LogoutButton from "./LogoutButton";
 import { getUserInfo } from "@/services/auth/getUserInfo";
 import { PersonInfo } from "@/types/person.interface";
+import ProfileDropdown from "./ProfileDropDown";
 
 // Navigation item type
 interface NavItem {
@@ -21,6 +23,22 @@ const Navbar = async () => {
     const userRole = userInfo?.role || "GUEST"; // Default to GUEST if not logged in
 
     console.log("Current user role:", userRole);
+    console.log("Full user info:", userInfo);
+
+    // Helper function to get name from user info
+    const getName = () => {
+        if (!userInfo) return "";
+        switch (userInfo.role) {
+            case "USER":
+                return userInfo.user?.name || userInfo.email?.split('@')[0];
+            case "ADMIN":
+                return userInfo.admin?.name || userInfo.email?.split('@')[0];
+            case "HOST":
+                return userInfo.host?.name || userInfo.email?.split('@')[0];
+            default:
+                return userInfo.email?.split('@')[0] || "";
+        }
+    };
 
     // Define all navigation items with allowed roles
     const navItems: NavItem[] = [
@@ -39,6 +57,7 @@ const Navbar = async () => {
     );
 
     const accessToken = await getCookie("accessToken");
+    const userName = getName();
 
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur dark:bg-background/95">
@@ -60,25 +79,20 @@ const Navbar = async () => {
                     ))}
                 </nav>
 
-                <div className="hidden md:flex items-center space-x-2">
+                <div className="hidden md:flex items-center space-x-4">
                     {accessToken ? (
                         <>
-                            {userInfo?.email && (
-                                <span className="text-sm font-medium mr-2">
-                                    Hi, {userInfo.email}
+                            <div className="flex items-center space-x-3">
+                                <span className="text-sm font-medium">
+                                    {userName}
                                 </span>
-                            )}
-                            <LogoutButton />
+                                <ProfileDropdown userInfo={userInfo} />
+                            </div>
                         </>
                     ) : (
                         <>
-                            <Link href="/register">
-                                <Button variant="outline" size="sm" className="mr-2">
-                                    Sign Up
-                                </Button>
-                            </Link>
                             <Link href="/login">
-                                <Button size="sm">Login</Button>
+                                <Button size="lg">Login</Button>
                             </Link>
                         </>
                     )}
@@ -98,6 +112,26 @@ const Navbar = async () => {
                                 <span className="text-lg font-bold">Events</span>
                             </div>
 
+                            {/* User Profile Section in Mobile */}
+                            {accessToken && (
+                                <div className="mb-6 pb-6 border-b">
+                                    <div className="flex items-center space-x-3">
+                                        <ProfileDropdown userInfo={userInfo} mobileView />
+                                        <div className="flex flex-col">
+                                            <span className="font-medium">
+                                                {userName || "User"}
+                                            </span>
+                                            <span className="text-sm text-muted-foreground">
+                                                {userInfo?.email || ""}
+                                            </span>
+                                            <span className="text-xs text-muted-foreground capitalize mt-1">
+                                                {userRole.toLowerCase()} account
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
                             <nav className="flex flex-col space-y-2">
                                 {filteredLinks.map((link) => (
                                     <Link
@@ -112,26 +146,13 @@ const Navbar = async () => {
 
                             <div className="absolute bottom-4 left-4 right-4">
                                 {accessToken ? (
-                                    <>
-                                        {userInfo?.email && (
-                                            <div className="mb-4 px-3 py-2 bg-accent rounded-md">
-                                                <div className="font-medium">{userInfo.email}</div>
-                                                <div className="text-xs text-muted-foreground">
-                                                    {userInfo.role} Account
-                                                </div>
-                                            </div>
-                                        )}
+                                    <div className="space-y-3">
                                         <LogoutButton />
-                                    </>
+                                    </div>
                                 ) : (
                                     <div className="flex flex-col space-y-2">
                                         <Link href="/login">
                                             <Button className="w-full">Login</Button>
-                                        </Link>
-                                        <Link href="/register">
-                                            <Button variant="outline" className="w-full">
-                                                Sign Up
-                                            </Button>
                                         </Link>
                                     </div>
                                 )}

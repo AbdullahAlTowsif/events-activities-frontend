@@ -17,6 +17,11 @@ export const getUserInfo = async (): Promise<PersonInfo | any> => {
 
         const result = await response.json();
 
+        if (!result.success) {
+            console.log("No user found from get user info");
+            return null
+        }
+
         if (result.success) {
             const accessToken = await getCookie("accessToken");
 
