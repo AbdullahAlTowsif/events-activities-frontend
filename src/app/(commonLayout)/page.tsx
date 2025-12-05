@@ -1,3 +1,4 @@
+import FAQ from "@/components/modules/Home/FAQ";
 import Hero from "@/components/modules/Home/Hero";
 import HowItWorks from "@/components/modules/Home/HowItWorks";
 import Head from "next/head";
@@ -17,6 +18,7 @@ export default function Home() {
       <main>
         <Hero />
         <HowItWorks />
+        <FAQ />
       </main>
     </>
   );
