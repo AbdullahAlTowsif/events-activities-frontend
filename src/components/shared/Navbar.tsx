@@ -42,7 +42,7 @@ const Navbar = async () => {
 
     // Define all navigation items with allowed roles
     const navItems: NavItem[] = [
-        { href: "/", label: "Explore Events", roles: ["GUEST", "USER", "HOST", "ADMIN"] },
+        { href: "/events", label: "Explore Events", roles: ["GUEST", "USER", "HOST", "ADMIN"] },
         { href: "/reviews", label: "Reviews", roles: ["GUEST", "USER", "HOST", "ADMIN"] },
         { href: "/become-host", label: "Become a Host", roles: ["USER"] },
         { href: "/host/events/create", label: "Create Event", roles: ["HOST"] },
