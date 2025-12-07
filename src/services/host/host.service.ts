@@ -3,6 +3,7 @@
 
 import { serverFetch } from "@/lib/server-fetch";
 import { zodValidator } from "@/lib/zodValidator";
+import { IEvent } from "@/types/event.interface";
 import { createEventValidationSchema } from "@/zod/event.validation";
 
 export const createEvent = async (_currentState: any, formData: any): Promise<any> => {
@@ -78,6 +79,54 @@ export async function getHostProfile(email: string) {
         return {
             success: false,
             message: `${process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'}`
+        };
+    }
+}
+
+
+export async function getMyCreatedEvents() {
+    try {
+        const response = await serverFetch.get('/event/host/my-created-events');
+        const result = await response.json();
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: error.message || 'Failed to fetch your events'
+        };
+    }
+}
+
+export async function deleteEvent(eventId: string) {
+    try {
+        const response = await serverFetch.delete(`/event/delete/${eventId}`);
+        const result = await response.json();
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: error.message || 'Failed to delete event'
+        };
+    }
+}
+
+export async function updateEventById(eventId: string, data: Partial<IEvent>) {
+    try {
+        const response = await serverFetch.patch(`/event/update/${eventId}`, {
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const result = await response.json();
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: error.message || 'Failed to update event'
         };
     }
 }

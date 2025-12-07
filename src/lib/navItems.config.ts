@@ -39,17 +39,17 @@ export const getCommonNavItems = (role: PersonRole): NavSection[] => {
                 },
             ],
         },
-        {
-            title: "Explore Events",
-            items: [
-                {
-                    title: "Events",
-                    href: "/events",
-                    icon: "Activity", // ✅ String
-                    roles: ["USER", "HOST", "ADMIN"],
-                },
-            ],
-        },
+        // {
+        //     title: "Explore Events",
+        //     items: [
+        //         {
+        //             title: "Events",
+        //             href: "/events",
+        //             icon: "Activity", // ✅ String
+        //             roles: ["USER", "HOST", "ADMIN"],
+        //         },
+        //     ],
+        // },
     ]
 }
 
