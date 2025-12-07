@@ -27,3 +27,4 @@ export interface IHostApplicationStatus {
     CANCELLED: "CANCELLED";
 }
 
+export type JoinStatusUnion = IJoinStatus[keyof IJoinStatus];

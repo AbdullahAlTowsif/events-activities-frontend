@@ -16,11 +16,14 @@ const serverFetchHelper = async (endpoint: string, options: RequestInit): Promis
     const response = await fetch(`${BACKEND_API_URL}${endpoint}`, {
         headers: {
             Cookie: accessToken ? `accessToken=${accessToken}` : "",
+            Authorization: `Bearer ${accessToken}`,
+            ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
             ...headers,
             // ...(accessToken ? { "Authorization": `Bearer ${accessToken}` } : {}),
             // ...(accessToken ? { "Authorization": accessToken } : {}),
             // cookie nije theke set kortesi karon node js er backend theke direct browser e cookie set hocche na. Node Backend --> Next.js Backend --> client Browser
         },
+        credentials: 'include',
         ...restOptions,
     })
 
