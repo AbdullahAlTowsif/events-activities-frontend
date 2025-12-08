@@ -76,7 +76,7 @@ export default function HostApplicationForm() {
             const result = await getMyHostApplication();
             console.log("My host applicaiton", result);
             if (result.success && result.data) {
-                setApplicationStatus(result.data.status.toLowerCase() as any);
+                setApplicationStatus(result.data.status?.toLowerCase() as any);
                 if (result.data.status === 'PENDING') {
                     setMessage({
                         type: 'error',
