@@ -123,7 +123,7 @@ export const adminNavItems: NavSection[] = [
             },
             {
                 title: "Hosts",
-                href: "/admin/dashboard/hosts-management",
+                href: "/admin/dashboard/manage-hosts",
                 icon: "Ghost", // ✅ String
                 roles: ["ADMIN"],
             },
