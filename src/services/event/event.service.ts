@@ -48,6 +48,21 @@ export async function getParticipants(id: string) {
     }
 }
 
+export async function getMyPaidEvents() {
+    try {
+        const response = await serverFetch.get(`/user/my-paid-events`);
+        const result = await response.json();
+        console.log("get my paid events result", result);
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: 'Something went wrong'
+        };
+    }
+}
+
 
 export async function initPayment(eventId: string, amount: number, currency: string = 'BDT') {
     try {
@@ -97,3 +112,4 @@ export const verifyPayment = async (sessionId: string) => {
         };
     }
 };
+

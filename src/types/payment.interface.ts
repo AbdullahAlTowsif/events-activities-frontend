@@ -1,4 +1,5 @@
 import { IPaymentStatus } from "./enum.interface";
+import { IParticipant } from "./participant.interface";
 
 export interface IPayment {
     id?: string;
@@ -12,4 +13,6 @@ export interface IPayment {
     status: IPaymentStatus;
     createdAt: string;
     updatedAt: string;
+
+    participants?: IParticipant[]
 }
