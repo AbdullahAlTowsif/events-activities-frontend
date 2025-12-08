@@ -36,7 +36,7 @@ export default function AnalyticsChartsSection({
     const userDistributionData = [
         { name: 'Users', value: stats.totalUsers },
         { name: 'Hosts', value: stats.totalHosts },
-        { name: 'Admins', value: 5 },
+        { name: 'Admins', value: stats.totalAdmins },
     ];
 
     const eventStatsData = [

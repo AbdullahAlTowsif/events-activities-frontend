@@ -6,8 +6,6 @@ import {
     Search,
     Filter,
     Users,
-    Calendar,
-    Star,
     MoreVertical,
     Eye,
     RefreshCw
@@ -23,33 +21,36 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
+    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getAllHosts, IHost } from '@/services/admin/getAll';
+import { IAdmin } from '@/types/admin.interface';
+import { getAllAdmins } from '@/services/admin/getAll';
 
-export default function HostsManagement() {
+export default function AdminsManagement() {
     // State
-    const [hosts, setHosts] = useState<IHost[]>([]);
+    const [admins, setAdmins] = useState<IAdmin[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [genderFilter, setGenderFilter] = useState<string>('all');
+    const [statusFilter, setStatusFilter] = useState<string>('all');
     const [sortBy, setSortBy] = useState<string>('createdAt');
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
     const [total, setTotal] = useState(0);
-    const [selectedHost, setSelectedHost] = useState<IHost | null>(null);
+    const [selectedAdmin, setSelectedAdmin] = useState<IAdmin | null>(null);
     const [showDetailsDialog, setShowDetailsDialog] = useState(false);
 
     // Fetch hosts
-    const fetchHosts = useCallback(async () => {
+    const fetchAdmins = useCallback(async () => {
         setLoading(true);
         try {
             const filters: any = {};
             if (searchTerm) filters.searchTerm = searchTerm;
             if (genderFilter !== 'all') filters.gender = genderFilter;
-            // if (statusFilter !== 'all') filters.status = statusFilter;
+            if (statusFilter !== 'all') filters.status = statusFilter;
 
             const options = {
                 page,
@@ -58,31 +59,28 @@ export default function HostsManagement() {
                 sortOrder
             };
 
-            const result = await getAllHosts(filters, options);
-            console.log(result);
+            const result = await getAllAdmins(filters, options);
 
             if (result.success) {
-                setHosts(result.data);
+                setAdmins(result.data);
                 setTotal(result.meta.total);
             }
         } catch (error) {
-            console.error('Error fetching hosts:', error);
+            console.error('Error fetching admins:', error);
         } finally {
             setLoading(false);
         }
-    }, [searchTerm, genderFilter, page, limit, sortBy, sortOrder]);
+    }, [searchTerm, genderFilter, statusFilter, page, limit, sortBy, sortOrder]);
 
     // Initial fetch
     useEffect(() => {
-        fetchHosts();
-    }, [fetchHosts]);
-
+        fetchAdmins();
+    }, [fetchAdmins]);
 
     // Reset filters
     const handleResetFilters = () => {
         setSearchTerm('');
         setGenderFilter('all');
-        // setStatusFilter('all');
         setSortBy('createdAt');
         setSortOrder('desc');
         setPage(1);
@@ -107,8 +105,8 @@ export default function HostsManagement() {
             <div className="space-y-6">
                 {/* Header */}
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-900 mb-2">Manage Hosts</h1>
-                    <p className="text-slate-600">Manage all hosts and their status on the platform</p>
+                    <h1 className="text-3xl font-bold text-slate-900 mb-2">Manage Admins</h1>
+                    <p className="text-slate-600">Manage all admins on the platform</p>
                 </div>
 
                 {/* Stats Cards */}
@@ -118,22 +116,6 @@ export default function HostsManagement() {
                         value={total}
                         icon={<Users className="w-5 h-5" />}
                         color="blue"
-                    />
-                    <StatCard
-                        title="Total Events"
-                        value={hosts.reduce((sum, host) => sum + (host._count?.events || 0), 0)}
-                        icon={<Calendar className="w-5 h-5" />}
-                        color="purple"
-                    />
-                    <StatCard
-                        title="Avg Rating"
-                        value={(
-                            hosts.reduce((sum, host) => sum + (host.rating || 0), 0) /
-                            (hosts.filter(h => h.rating).length || 1)
-                        ).toFixed(1)}
-                        suffix="★"
-                        icon={<Star className="w-5 h-5" />}
-                        color="amber"
                     />
                 </div>
 
@@ -169,24 +151,9 @@ export default function HostsManagement() {
                                 </Select>
                             </div>
 
-                            {/* Status Filter */}
-                            {/* <div>
-                                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Status" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="all">All Status</SelectItem>
-                                        <SelectItem value="ACTIVE">Active</SelectItem>
-                                        <SelectItem value="INACTIVE">Inactive</SelectItem>
-                                        <SelectItem value="SUSPENDED">Suspended</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div> */}
-
                             {/* Actions */}
                             <div className="flex gap-2">
-                                <Button onClick={fetchHosts} variant="outline" className="flex-1">
+                                <Button onClick={fetchAdmins} variant="outline" className="flex-1">
                                     <RefreshCw className="w-4 h-4 mr-2" />
                                     Refresh
                                 </Button>
@@ -202,7 +169,7 @@ export default function HostsManagement() {
                 {/* Hosts Table */}
                 <Card>
                     <CardHeader>
-                        <CardTitle>All Hosts</CardTitle>
+                        <CardTitle>All Admins</CardTitle>
                     </CardHeader>
                     <CardContent>
                         {loading ? (
@@ -211,10 +178,10 @@ export default function HostsManagement() {
                                     <Skeleton key={i} className="h-16 w-full" />
                                 ))}
                             </div>
-                        ) : hosts.length === 0 ? (
+                        ) : admins.length === 0 ? (
                             <div className="text-center py-12">
                                 <Users className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-                                <h3 className="text-lg font-semibold text-slate-900 mb-2">No Hosts Found</h3>
+                                <h3 className="text-lg font-semibold text-slate-900 mb-2">No Admins Found</h3>
                                 <p className="text-slate-600 mb-4">Try adjusting your filters or search term</p>
                                 <Button onClick={handleResetFilters} variant="outline">
                                     Reset Filters
@@ -225,58 +192,40 @@ export default function HostsManagement() {
                                 <Table>
                                     <TableHeader>
                                         <TableRow>
-                                            <TableHead>Host</TableHead>
+                                            <TableHead>Admin</TableHead>
                                             <TableHead>Contact</TableHead>
-                                            <TableHead>Events</TableHead>
-                                            {/* <TableHead>Status</TableHead> */}
                                             <TableHead>Joined</TableHead>
                                             <TableHead className="text-right">Actions</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {hosts.map((host) => (
-                                            <TableRow key={host.id}>
+                                        {admins.map((admin) => (
+                                            <TableRow key={admin.id}>
                                                 <TableCell>
                                                     <div className="flex items-center gap-3">
                                                         <Avatar>
-                                                            <AvatarImage src={host.profilePhoto} />
+                                                            <AvatarImage src={admin.profilePhoto} />
                                                             <AvatarFallback>
-                                                                {host.name.charAt(0).toUpperCase()}
+                                                                {admin.name.charAt(0).toUpperCase()}
                                                             </AvatarFallback>
                                                         </Avatar>
                                                         <div>
-                                                            <div className="font-medium">{host.name}</div>
-                                                            <div className="text-sm text-slate-500">{host.email}</div>
+                                                            <div className="font-medium">{admin.name}</div>
+                                                            <div className="text-sm text-slate-500">{admin.email}</div>
                                                         </div>
                                                     </div>
                                                 </TableCell>
                                                 <TableCell>
                                                     <div className="space-y-1">
-                                                        <div className="text-sm">{host.email}</div>
-                                                        {host.contactNumber && (
-                                                            <div className="text-sm text-slate-500">{host.contactNumber}</div>
+                                                        <div className="text-sm">{admin.email}</div>
+                                                        {admin.contactNumber && (
+                                                            <div className="text-sm text-slate-500">{admin.contactNumber}</div>
                                                         )}
                                                     </div>
                                                 </TableCell>
-                                                <TableCell>
-                                                    <div className="space-y-1">
-                                                        <div className="flex items-center gap-1">
-                                                            <Calendar className="w-4 h-4 text-slate-400" />
-                                                            <span className="font-medium">{host._count?.events || 0}</span>
-                                                            <span className="text-sm text-slate-500">events</span>
-                                                        </div>
-                                                        {host.rating && (
-                                                            <div className="flex items-center gap-1">
-                                                                <Star className="w-4 h-4 text-amber-400 fill-current" />
-                                                                <span className="text-sm">{host.rating.toFixed(1)}</span>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                </TableCell>
-                                                {/* <TableCell>{getStatusBadge(host.status)}</TableCell> */}
                                                 <TableCell>
                                                     <div className="text-sm">
-                                                        {formatDate(host.createdAt)}
+                                                        {formatDate(admin.createdAt)}
                                                     </div>
                                                 </TableCell>
                                                 <TableCell className="text-right">
@@ -290,13 +239,14 @@ export default function HostsManagement() {
                                                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                             <DropdownMenuItem
                                                                 onClick={() => {
-                                                                    setSelectedHost(host);
+                                                                    setSelectedAdmin(admin);
                                                                     setShowDetailsDialog(true);
                                                                 }}
                                                             >
                                                                 <Eye className="w-4 h-4 mr-2" />
                                                                 View Details
                                                             </DropdownMenuItem>
+                                                            <DropdownMenuSeparator />
                                                         </DropdownMenuContent>
                                                     </DropdownMenu>
                                                 </TableCell>
@@ -308,10 +258,10 @@ export default function HostsManagement() {
                         )}
 
                         {/* Pagination */}
-                        {hosts.length > 0 && (
+                        {admins.length > 0 && (
                             <div className="flex items-center justify-between mt-6">
                                 <div className="text-sm text-slate-600">
-                                    Showing {startItem} to {endItem} of {total} hosts
+                                    Showing {startItem} to {endItem} of {total} admins
                                 </div>
                                 <div className="flex gap-2">
                                     <Button
