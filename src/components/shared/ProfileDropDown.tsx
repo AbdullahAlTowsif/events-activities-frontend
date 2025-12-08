@@ -314,7 +314,7 @@ export default function ProfileDropdown({ userInfo, mobileView = false }: Profil
 
                 {/* Logout Item - Don't wrap Button inside DropdownMenuItem */}
                 <DropdownMenuItem
-                    className="text-red-600 hover:text-red-700 hover:bg-red-50 focus:text-red-700 focus:bg-red-50 cursor-pointer"
+                    className="text-red-600 hover:text-red-700 hover:bg-red-50 focus:text-red-700 focus:bg-red-50"
                 >
                     <LogOut className="mr-2 h-4 w-4" />
                     <LogoutButton />

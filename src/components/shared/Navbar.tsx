@@ -1,4 +1,3 @@
-// components/layout/Navbar.tsx - Updated
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
