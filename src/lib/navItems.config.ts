@@ -136,12 +136,12 @@ export const adminNavItems: NavSection[] = [
         ],
     },
     {
-        title: "Events Management",
+        title: "Analytics Dashboard",
         items: [
             {
-                title: "Appointments",
-                href: "/admin/dashboard/events-management",
-                icon: "Activity", // ✅ String
+                title: "Analytics",
+                href: "/admin/dashboard/analytics-dashboard",
+                icon: "Database", // ✅ String
                 roles: ["ADMIN"],
             },
         ],
