@@ -25,32 +25,30 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
-import { IAdmin } from '@/types/admin.interface';
-import { getAllAdmins } from '@/services/admin/getAll';
+import { getAllUsers } from '@/services/admin/getAll';
+import { IUser } from '@/types/user.interface';
 
-export default function AdminsManagement() {
+export default function UsersManagement() {
     // State
-    const [admins, setAdmins] = useState<IAdmin[]>([]);
+    const [users, setUsers] = useState<IUser[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [genderFilter, setGenderFilter] = useState<string>('all');
-    const [statusFilter, setStatusFilter] = useState<string>('all');
     const [sortBy, setSortBy] = useState<string>('createdAt');
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
     const [total, setTotal] = useState(0);
-    const [selectedAdmin, setSelectedAdmin] = useState<IAdmin | null>(null);
+    const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
     const [showDetailsDialog, setShowDetailsDialog] = useState(false);
 
-    // Fetch hosts
-    const fetchAdmins = useCallback(async () => {
+    // Fetch users
+    const fetchUsers = useCallback(async () => {
         setLoading(true);
         try {
             const filters: any = {};
             if (searchTerm) filters.searchTerm = searchTerm;
             if (genderFilter !== 'all') filters.gender = genderFilter;
-            if (statusFilter !== 'all') filters.status = statusFilter;
 
             const options = {
                 page,
@@ -59,23 +57,23 @@ export default function AdminsManagement() {
                 sortOrder
             };
 
-            const result = await getAllAdmins(filters, options);
+            const result = await getAllUsers(filters, options);
 
             if (result.success) {
-                setAdmins(result.data);
+                setUsers(result.data);
                 setTotal(result.meta.total);
             }
         } catch (error) {
-            console.error('Error fetching admins:', error);
+            console.error('Error fetching users:', error);
         } finally {
             setLoading(false);
         }
-    }, [searchTerm, genderFilter, statusFilter, page, limit, sortBy, sortOrder]);
+    }, [searchTerm, genderFilter, page, limit, sortBy, sortOrder]);
 
     // Initial fetch
     useEffect(() => {
-        fetchAdmins();
-    }, [fetchAdmins]);
+        fetchUsers();
+    }, [fetchUsers]);
 
     // Reset filters
     const handleResetFilters = () => {
@@ -105,14 +103,14 @@ export default function AdminsManagement() {
             <div className="space-y-6">
                 {/* Header */}
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-900 mb-2">Manage Admins</h1>
-                    <p className="text-slate-600">Manage all admins on the platform</p>
+                    <h1 className="text-3xl font-bold text-slate-900 mb-2">Manage Users</h1>
+                    <p className="text-slate-600">Manage all users on the platform</p>
                 </div>
 
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <StatCard
-                        title="Total Admins"
+                        title="Total Users"
                         value={total}
                         icon={<Users className="w-5 h-5" />}
                         color="blue"
@@ -153,7 +151,7 @@ export default function AdminsManagement() {
 
                             {/* Actions */}
                             <div className="flex gap-2">
-                                <Button onClick={fetchAdmins} variant="outline" className="flex-1">
+                                <Button onClick={fetchUsers} variant="outline" className="flex-1">
                                     <RefreshCw className="w-4 h-4 mr-2" />
                                     Refresh
                                 </Button>
@@ -166,10 +164,10 @@ export default function AdminsManagement() {
                     </CardContent>
                 </Card>
 
-                {/* Admin Table */}
+                {/* User Table */}
                 <Card>
                     <CardHeader>
-                        <CardTitle>All Admins</CardTitle>
+                        <CardTitle>All Users</CardTitle>
                     </CardHeader>
                     <CardContent>
                         {loading ? (
@@ -178,10 +176,10 @@ export default function AdminsManagement() {
                                     <Skeleton key={i} className="h-16 w-full" />
                                 ))}
                             </div>
-                        ) : admins.length === 0 ? (
+                        ) : users.length === 0 ? (
                             <div className="text-center py-12">
                                 <Users className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-                                <h3 className="text-lg font-semibold text-slate-900 mb-2">No Admins Found</h3>
+                                <h3 className="text-lg font-semibold text-slate-900 mb-2">No Users Found</h3>
                                 <p className="text-slate-600 mb-4">Try adjusting your filters or search term</p>
                                 <Button onClick={handleResetFilters} variant="outline">
                                     Reset Filters
@@ -192,40 +190,40 @@ export default function AdminsManagement() {
                                 <Table>
                                     <TableHeader>
                                         <TableRow>
-                                            <TableHead>Admin</TableHead>
+                                            <TableHead>User</TableHead>
                                             <TableHead>Contact</TableHead>
                                             <TableHead>Joined</TableHead>
                                             <TableHead className="text-right">Actions</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {admins.map((admin) => (
-                                            <TableRow key={admin.id}>
+                                        {users.map((user) => (
+                                            <TableRow key={user.id}>
                                                 <TableCell>
                                                     <div className="flex items-center gap-3">
                                                         <Avatar>
-                                                            <AvatarImage src={admin.profilePhoto} />
+                                                            <AvatarImage src={user.profilePhoto} />
                                                             <AvatarFallback>
-                                                                {admin.name.charAt(0).toUpperCase()}
+                                                                {user.name.charAt(0).toUpperCase()}
                                                             </AvatarFallback>
                                                         </Avatar>
                                                         <div>
-                                                            <div className="font-medium">{admin.name}</div>
-                                                            <div className="text-sm text-slate-500">{admin.email}</div>
+                                                            <div className="font-medium">{user.name}</div>
+                                                            <div className="text-sm text-slate-500">{user.email}</div>
                                                         </div>
                                                     </div>
                                                 </TableCell>
                                                 <TableCell>
                                                     <div className="space-y-1">
-                                                        <div className="text-sm">{admin.email}</div>
-                                                        {admin.contactNumber && (
-                                                            <div className="text-sm text-slate-500">{admin.contactNumber}</div>
+                                                        <div className="text-sm">{user.email}</div>
+                                                        {user.contactNumber && (
+                                                            <div className="text-sm text-slate-500">{user.contactNumber}</div>
                                                         )}
                                                     </div>
                                                 </TableCell>
                                                 <TableCell>
                                                     <div className="text-sm">
-                                                        {formatDate(admin.createdAt)}
+                                                        {formatDate(user.createdAt)}
                                                     </div>
                                                 </TableCell>
                                                 <TableCell className="text-right">
@@ -239,7 +237,7 @@ export default function AdminsManagement() {
                                                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                                             <DropdownMenuItem
                                                                 onClick={() => {
-                                                                    setSelectedAdmin(admin);
+                                                                    setSelectedUser(user);
                                                                     setShowDetailsDialog(true);
                                                                 }}
                                                             >
@@ -258,10 +256,10 @@ export default function AdminsManagement() {
                         )}
 
                         {/* Pagination */}
-                        {admins.length > 0 && (
+                        {users.length > 0 && (
                             <div className="flex items-center justify-between mt-6">
                                 <div className="text-sm text-slate-600">
-                                    Showing {startItem} to {endItem} of {total} admins
+                                    Showing {startItem} to {endItem} of {total} users
                                 </div>
                                 <div className="flex gap-2">
                                     <Button
@@ -328,3 +326,4 @@ function StatCard({
         </Card>
     );
 }
+
