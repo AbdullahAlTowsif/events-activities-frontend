@@ -1,4 +1,6 @@
-import { IJoinStatus } from "./enum.interface";
+// import { IJoinStatus } from "./enum.interface";
+export type JoinStatusUnion = "PENDING" | "ACCEPTED" | "REJECTED" | "LEFT";
+
 
 export interface IParticipant {
   id?: string;
@@ -6,7 +8,7 @@ export interface IParticipant {
   eventId: string;
 //   user      User       @relation(fields: [userEmail], references: [email])
   userEmail: string;
-  status: IJoinStatus;
+  status: JoinStatusUnion;
   paid: boolean;
   createdAt: string;
 }

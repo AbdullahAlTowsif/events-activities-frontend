@@ -1,6 +1,6 @@
-import { IPaymentStatus } from "./enum.interface";
+// import { IPaymentStatus } from "./enum.interface";
 import { IParticipant } from "./participant.interface";
-
+export type PaymentStatusUnion = "PENDING" | "SUCCESS" | "FAILED" | "REFUNDED";
 export interface IPayment {
     id?: string;
     // user                  User          @relation(fields: [userEmail], references: [email])
@@ -10,7 +10,7 @@ export interface IPayment {
     amount: number;
     currency: string;
     stripePaymentIntentId?: string;
-    status: IPaymentStatus;
+    status: PaymentStatusUnion;
     createdAt: string;
     updatedAt: string;
 

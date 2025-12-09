@@ -136,6 +136,17 @@ export const adminNavItems: NavSection[] = [
         ],
     },
     {
+        title: "Events Management",
+        items: [
+            {
+                title: "Events",
+                href: "/admin/dashboard/manage-events",
+                icon: "Ticket", // ✅ String
+                roles: ["ADMIN"],
+            },
+        ],
+    },
+    {
         title: "Analytics Dashboard",
         items: [
             {
