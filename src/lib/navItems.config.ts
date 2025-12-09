@@ -147,6 +147,17 @@ export const adminNavItems: NavSection[] = [
         ],
     },
     {
+        title: "Manage Applications",
+        items: [
+            {
+                title: "Applications Review",
+                href: "/admin/dashboard/manage-applications",
+                icon: "file-plus-corner", // ✅ String
+                roles: ["ADMIN"],
+            },
+        ],
+    },
+    {
         title: "Analytics Dashboard",
         items: [
             {

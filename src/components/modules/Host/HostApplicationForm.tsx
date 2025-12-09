@@ -25,6 +25,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { applyToBeHost, getMyHostApplication } from '@/services/host/hostApplication';
+import { getUserInfo } from '@/services/auth/getUserInfo';
 
 const applicationSchema = z.object({
     reason: z.string()
@@ -73,9 +74,10 @@ export default function HostApplicationForm() {
 
     const checkExistingApplication = async () => {
         try {
+            const userInfo = await getUserInfo();
             const result = await getMyHostApplication();
             console.log("My host applicaiton", result);
-            if (result.success && result.data) {
+            if (result.success && result.data && userInfo.email === result.userEmail) {
                 setApplicationStatus(result.data.status?.toLowerCase() as any);
                 if (result.data.status === 'PENDING') {
                     setMessage({
