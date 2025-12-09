@@ -1,29 +1,3 @@
-// // import DoctorReviews from "@/components/modules/DoctorDetails/DoctorReviews";
-// import EventContent from "@/components/modules/Event/EventContent";
-// import { getEventById } from "@/services/admin/eventManagement";
-// import { getParticipants } from "@/services/event/event.service";
-
-
-// const EventDetailPage = async ({
-//     params,
-// }: {
-//     params: Promise<{ id: string }>;
-// }) => {
-//     const { id } = await params;
-//     const result = await getEventById(id);
-//     const eventParticipants = await getParticipants(id);
-
-//     return (
-//         <div className="container mx-auto px-4 py-8 space-y-6">
-//             <EventContent event={result.data} />
-//             <ParticipantsContent eventId={id} />
-//         </div>
-//     );
-// };
-
-// export default EventDetailPage;
-
-
 import EventContent from "@/components/modules/Event/EventContent";
 import { getHostProfile } from "@/services/host/host.service";
 import { getEventById } from "@/services/admin/eventManagement";
