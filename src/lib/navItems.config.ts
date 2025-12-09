@@ -70,6 +70,17 @@ export const userNavItems: NavSection[] = [
             //     roles: ["USER"],
             // },
         ],
+    },
+    {
+        title: "Applications",
+        items: [
+            {
+                title: "My Applications",
+                href: "/dashboard/my-applications",
+                icon: "app-window", // ✅ String
+                roles: ["USER"],
+            },
+        ],
     }
 ]
 
