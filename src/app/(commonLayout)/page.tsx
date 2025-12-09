@@ -3,6 +3,7 @@ import FAQ from "@/components/modules/Home/FAQ";
 import Hero from "@/components/modules/Home/Hero";
 import HowItWorks from "@/components/modules/Home/HowItWorks";
 import TopThreeReviews from "@/components/modules/Home/TopThreeReview";
+import Footer from "@/components/shared/Footer";
 import Head from "next/head";
 import { Suspense } from "react";
 
@@ -25,6 +26,7 @@ export default function Home() {
         <Suspense fallback={<AnalyticsDashboardLoading />} >
           <TopThreeReviews />
         </Suspense>
+        <Footer />
       </main>
     </>
   );
