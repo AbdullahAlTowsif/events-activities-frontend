@@ -1,7 +1,10 @@
+import AnalyticsDashboardLoading from "@/components/modules/Admin/Analytics/AnalyticsDashboardLoading";
 import FAQ from "@/components/modules/Home/FAQ";
 import Hero from "@/components/modules/Home/Hero";
 import HowItWorks from "@/components/modules/Home/HowItWorks";
+import TopThreeReviews from "@/components/modules/Home/TopThreeReview";
 import Head from "next/head";
+import { Suspense } from "react";
 
 export default function Home() {
   return (
@@ -19,6 +22,9 @@ export default function Home() {
         <Hero />
         <HowItWorks />
         <FAQ />
+        <Suspense fallback={<AnalyticsDashboardLoading />} >
+          <TopThreeReviews />
+        </Suspense>
       </main>
     </>
   );
