@@ -8,8 +8,6 @@ import {
     Users,
     Calendar,
     Star,
-    MoreVertical,
-    Eye,
     RefreshCw
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -18,13 +16,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getAllHosts, IHost } from '@/services/admin/getAll';
 
@@ -39,8 +30,6 @@ export default function HostsManagement() {
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
     const [total, setTotal] = useState(0);
-    const [selectedHost, setSelectedHost] = useState<IHost | null>(null);
-    const [showDetailsDialog, setShowDetailsDialog] = useState(false);
 
     // Fetch hosts
     const fetchHosts = useCallback(async () => {
@@ -49,7 +38,6 @@ export default function HostsManagement() {
             const filters: any = {};
             if (searchTerm) filters.searchTerm = searchTerm;
             if (genderFilter !== 'all') filters.gender = genderFilter;
-            // if (statusFilter !== 'all') filters.status = statusFilter;
 
             const options = {
                 page,
@@ -169,21 +157,6 @@ export default function HostsManagement() {
                                 </Select>
                             </div>
 
-                            {/* Status Filter */}
-                            {/* <div>
-                                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Status" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="all">All Status</SelectItem>
-                                        <SelectItem value="ACTIVE">Active</SelectItem>
-                                        <SelectItem value="INACTIVE">Inactive</SelectItem>
-                                        <SelectItem value="SUSPENDED">Suspended</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div> */}
-
                             {/* Actions */}
                             <div className="flex gap-2">
                                 <Button onClick={fetchHosts} variant="outline" className="flex-1">
@@ -228,9 +201,7 @@ export default function HostsManagement() {
                                             <TableHead>Host</TableHead>
                                             <TableHead>Contact</TableHead>
                                             <TableHead>Events</TableHead>
-                                            {/* <TableHead>Status</TableHead> */}
                                             <TableHead>Joined</TableHead>
-                                            <TableHead className="text-right">Actions</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -273,32 +244,10 @@ export default function HostsManagement() {
                                                         )}
                                                     </div>
                                                 </TableCell>
-                                                {/* <TableCell>{getStatusBadge(host.status)}</TableCell> */}
                                                 <TableCell>
                                                     <div className="text-sm">
                                                         {formatDate(host.createdAt)}
                                                     </div>
-                                                </TableCell>
-                                                <TableCell className="text-right">
-                                                    <DropdownMenu>
-                                                        <DropdownMenuTrigger asChild>
-                                                            <Button variant="ghost" size="sm">
-                                                                <MoreVertical className="w-4 h-4" />
-                                                            </Button>
-                                                        </DropdownMenuTrigger>
-                                                        <DropdownMenuContent align="end">
-                                                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                            <DropdownMenuItem
-                                                                onClick={() => {
-                                                                    setSelectedHost(host);
-                                                                    setShowDetailsDialog(true);
-                                                                }}
-                                                            >
-                                                                <Eye className="w-4 h-4 mr-2" />
-                                                                View Details
-                                                            </DropdownMenuItem>
-                                                        </DropdownMenuContent>
-                                                    </DropdownMenu>
                                                 </TableCell>
                                             </TableRow>
                                         ))}

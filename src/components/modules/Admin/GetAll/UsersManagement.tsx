@@ -6,8 +6,6 @@ import {
     Search,
     Filter,
     Users,
-    MoreVertical,
-    Eye,
     RefreshCw
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -16,14 +14,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getAllUsers } from '@/services/admin/getAll';
 import { IUser } from '@/types/user.interface';
@@ -39,8 +29,6 @@ export default function UsersManagement() {
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
     const [total, setTotal] = useState(0);
-    const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
-    const [showDetailsDialog, setShowDetailsDialog] = useState(false);
 
     // Fetch users
     const fetchUsers = useCallback(async () => {
@@ -193,7 +181,6 @@ export default function UsersManagement() {
                                             <TableHead>User</TableHead>
                                             <TableHead>Contact</TableHead>
                                             <TableHead>Joined</TableHead>
-                                            <TableHead className="text-right">Actions</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -225,28 +212,6 @@ export default function UsersManagement() {
                                                     <div className="text-sm">
                                                         {formatDate(user.createdAt)}
                                                     </div>
-                                                </TableCell>
-                                                <TableCell className="text-right">
-                                                    <DropdownMenu>
-                                                        <DropdownMenuTrigger asChild>
-                                                            <Button variant="ghost" size="sm">
-                                                                <MoreVertical className="w-4 h-4" />
-                                                            </Button>
-                                                        </DropdownMenuTrigger>
-                                                        <DropdownMenuContent align="end">
-                                                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                            <DropdownMenuItem
-                                                                onClick={() => {
-                                                                    setSelectedUser(user);
-                                                                    setShowDetailsDialog(true);
-                                                                }}
-                                                            >
-                                                                <Eye className="w-4 h-4 mr-2" />
-                                                                View Details
-                                                            </DropdownMenuItem>
-                                                            <DropdownMenuSeparator />
-                                                        </DropdownMenuContent>
-                                                    </DropdownMenu>
                                                 </TableCell>
                                             </TableRow>
                                         ))}
