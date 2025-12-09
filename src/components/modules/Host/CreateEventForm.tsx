@@ -322,13 +322,6 @@ const CreateEventForm = () => {
                                 Clear Form
                             </Button>
                         </div>
-
-                        <FieldDescription className="px-6 text-center mt-4">
-                            Need help?{" "}
-                            <a href="/events/guide" className="text-blue-600 hover:underline">
-                                Check our event creation guide
-                            </a>
-                        </FieldDescription>
                     </Field>
                 </FieldGroup>
             </FieldGroup>

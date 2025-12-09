@@ -44,7 +44,7 @@ const Navbar = async () => {
         { href: "/events", label: "Explore Events", roles: ["GUEST", "USER", "HOST", "ADMIN"] },
         { href: "/reviews", label: "Reviews", roles: ["GUEST", "USER", "HOST", "ADMIN"] },
         { href: "/become-host", label: "Become a Host", roles: ["USER"] },
-        { href: "/host/events/create", label: "Create Event", roles: ["HOST"] },
+        { href: "/host/dashboard/create-event", label: "Create Event", roles: ["HOST"] },
         { href: "/dashboard", label: "Dashboard", roles: ["USER"] },
         { href: "/host/dashboard", label: "Dashboard", roles: ["HOST"] },
         { href: "/admin/dashboard", label: "Dashboard", roles: ["ADMIN"] },
