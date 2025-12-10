@@ -133,6 +133,12 @@ export const adminNavItems: NavSection[] = [
                 icon: "Users", // ✅ String
                 roles: ["ADMIN"],
             },
+            {
+                title: "Create Host",
+                href: "/admin/dashboard/create-host",
+                icon: "Users", // ✅ String
+                roles: ["ADMIN"],
+            },
         ],
     },
     {
