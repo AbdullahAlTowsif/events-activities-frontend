@@ -102,23 +102,6 @@ export const hostNavItems: NavSection[] = [
             },
         ],
     },
-    // {
-    //     title: "Medical Records",
-    //     items: [
-    //         {
-    //             title: "My Prescriptions",
-    //             href: "/dashboard/my-prescriptions",
-    //             icon: "FileText", // ✅ String
-    //             roles: ["PATIENT"],
-    //         },
-    //         {
-    //             title: "Health Records",
-    //             href: "/dashboard/health-records",
-    //             icon: "Activity", // ✅ String
-    //             roles: ["PATIENT"],
-    //         },
-    //     ],
-    // },
 
 ]
 
@@ -141,6 +124,12 @@ export const adminNavItems: NavSection[] = [
             {
                 title: "Users",
                 href: "/admin/dashboard/manage-users",
+                icon: "Users", // ✅ String
+                roles: ["ADMIN"],
+            },
+            {
+                title: "Create Admin",
+                href: "/admin/dashboard/create-admin",
                 icon: "Users", // ✅ String
                 roles: ["ADMIN"],
             },
