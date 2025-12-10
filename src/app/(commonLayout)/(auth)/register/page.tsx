@@ -6,7 +6,9 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { Suspense } from "react";
 
+export const dynamic = 'force-dynamic';
 const RegisterPage = () => {
     return (
         <>
@@ -20,7 +22,9 @@ const RegisterPage = () => {
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <RegisterForm />
+                            <Suspense fallback={<div>Loading search params...</div>}>
+                                <RegisterForm />
+                            </Suspense>
                         </CardContent>
                     </Card>
                 </div>

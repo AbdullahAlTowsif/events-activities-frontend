@@ -22,16 +22,39 @@ export interface IMyApplicationsResponse {
 }
 
 // Get user's applications
+// export async function getMyApplications(): Promise<IMyApplicationsResponse> {
+//     try {
+//         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/host/my-applications`, {
+//             method: 'GET',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             credentials: 'include',
+//         });
+
+//         if (!response.ok) {
+//             throw new Error(`Failed to fetch applications: ${response.statusText}`);
+//         }
+
+//         return await response.json();
+//     } catch (error) {
+//         console.error('Error fetching applications:', error);
+//         return {
+//             success: false,
+//             message: 'Failed to fetch applications',
+//             data: []
+//         };
+//     }
+// }
+
+
+// If this function is in a separate file, update it too
+import { serverFetch } from "@/lib/server-fetch";
+
 export async function getMyApplications(): Promise<IMyApplicationsResponse> {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/host/my-applications`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-        });
-
+        const response = await serverFetch.get(`/host/my-applications`);
+        
         if (!response.ok) {
             throw new Error(`Failed to fetch applications: ${response.statusText}`);
         }

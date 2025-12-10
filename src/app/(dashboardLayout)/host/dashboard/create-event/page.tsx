@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { Calendar, MapPin, Users, DollarSign, Image as ImageIcon, Shield } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import CreateEventForm from "@/components/modules/Host/CreateEventForm";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
     title: "Create New Event | EventHub",
@@ -46,7 +47,9 @@ const CreateEventPage = () => {
                                     </div>
                                 </div>
 
-                                <CreateEventForm />
+                                <Suspense fallback={<div>Loading search params...</div>}>
+                                    <CreateEventForm />
+                                </Suspense>
                             </CardContent>
                         </Card>
                     </div>

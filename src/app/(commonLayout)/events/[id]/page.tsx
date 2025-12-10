@@ -4,6 +4,7 @@ import { getEventById } from "@/services/admin/eventManagement";
 import EventActions from "@/components/modules/Event/EventActions";
 import ParticipantsContent from "@/components/modules/Event/ParticipantsContent";
 import HostProfile from "@/components/modules/Event/HostProfile";
+import { Suspense } from "react";
 
 const EventDetailPage = async ({
     params,
@@ -25,18 +26,26 @@ const EventDetailPage = async ({
                 {/* Left Column - Event Details & Host */}
                 <div className="lg:col-span-2 space-y-8">
                     {/* Event Details */}
-                    <EventContent event={event} />
+                    <Suspense fallback={<div>Loading search params...</div>}>
+                        <EventContent event={event} />
+                    </Suspense>
 
                     {/* Event Actions (Join/Leave Buttons) */}
-                    <EventActions eventId={id} event={event} />
+                    <Suspense fallback={<div>Loading search params...</div>}>
+                        <EventActions eventId={id} event={event} />
+                    </Suspense>
 
                     {/* Participants List */}
-                    <ParticipantsContent eventId={id} event={event} />
+                    <Suspense fallback={<div>Loading search params...</div>}>
+                        <ParticipantsContent eventId={id} event={event} />
+                    </Suspense>
                 </div>
 
                 {/* Right Column - Host Profile */}
                 <div className="lg:col-span-1">
-                    <HostProfile host={host} event={event} />
+                    <Suspense fallback={<div>Loading search params...</div>}>
+                        <HostProfile host={host} event={event} />
+                    </Suspense>
                 </div>
             </div>
         </div>

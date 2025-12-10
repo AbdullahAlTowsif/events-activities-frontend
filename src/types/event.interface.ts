@@ -1,6 +1,7 @@
 import { IEventStatus, IPaymentStatus, JoinStatusUnion } from "./enum.interface";
 import { IParticipant } from "./participant.interface";
 import { IPayment } from "./payment.interface";
+export type EventStatusUnion = "OPEN" | "FULL" | "CANCELLED" | "COMPLETED";
 
 export interface IEvent {
     id?: string;
@@ -15,7 +16,7 @@ export interface IEvent {
     maxParticipants?: number;
     joiningFee?: number;
     currency?: string;
-    status: IEventStatus;
+    status: EventStatusUnion;
     images: string[];
     createdAt: string;
     updatedAt: string;

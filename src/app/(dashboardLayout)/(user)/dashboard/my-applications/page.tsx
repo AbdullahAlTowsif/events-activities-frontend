@@ -1,5 +1,6 @@
 import MyApplicationsContent from '@/components/modules/User/MyApplicationsContent';
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
     title: 'My Applications - Events Platform',
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default async function MyApplicationsPage() {
-    return <MyApplicationsContent />;
+    return <>
+        <Suspense fallback={<div>Loading search params...</div>}>
+            <MyApplicationsContent />
+        </Suspense>
+    </>;
 }

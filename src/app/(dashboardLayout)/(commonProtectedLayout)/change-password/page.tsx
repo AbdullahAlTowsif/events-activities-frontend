@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { Shield, Lock, Key, AlertCircle, CheckCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import ChangePasswordForm from "@/components/modules/Auth/ChangePasswordForm";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
     title: "Change Password | Security Settings",
@@ -28,7 +29,9 @@ const ChangePasswordPage = () => {
                 <div className="grid lg:grid-cols-3 gap-8">
                     {/* Main Form - Left Column */}
                     <div className="lg:col-span-2">
-                        <ChangePasswordForm />
+                        <Suspense fallback={<div>Loading search params...</div>}>
+                            <ChangePasswordForm />
+                        </Suspense>
                     </div>
 
                     {/* Right Column - Tips & Info */}

@@ -6,6 +6,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { Suspense } from "react";
 
 const AdminCreatePage = () => {
     return (
@@ -20,7 +21,9 @@ const AdminCreatePage = () => {
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <AdminCreateForm />
+                            <Suspense fallback={<div>Loading search params...</div>}>
+                                <AdminCreateForm />
+                            </Suspense>
                         </CardContent>
                     </Card>
                 </div>

@@ -6,6 +6,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { Suspense } from "react";
 
 const HostCreatePage = () => {
     return (
@@ -20,7 +21,9 @@ const HostCreatePage = () => {
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <HostCreateForm />
+                            <Suspense fallback={<div>Loading search params...</div>}>
+                                <HostCreateForm />
+                            </Suspense>
                         </CardContent>
                     </Card>
                 </div>

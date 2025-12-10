@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
+export const dynamic = 'force-dynamic';
+
 export default function PaymentCancelPage() {
     return (
         <div className="min-h-screen bg-linear-to-b from-red-50 to-white">

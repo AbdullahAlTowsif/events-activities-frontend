@@ -1,5 +1,7 @@
 import LoginForm from "@/components/modules/Auth/LoginForm";
+import { Suspense } from "react";
 
+export const dynamic = 'force-dynamic';
 const LoginPage = async ({
     searchParams
 }: {
@@ -15,7 +17,9 @@ const LoginPage = async ({
                         Enter your credentials to access your account
                     </p>
                 </div>
-                <LoginForm redirect={params.redirect} />
+                <Suspense fallback={<div>Loading ...</div>}>
+                    <LoginForm redirect={params.redirect} />
+                </Suspense>
             </div>
         </div>
     );
