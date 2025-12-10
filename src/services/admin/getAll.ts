@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IAdmin } from "@/types/admin.interface";
 import { IUser } from "@/types/user.interface";
+import { serverFetch } from "@/lib/server-fetch";
 
 export interface IHost {
     id: string;
@@ -86,26 +88,21 @@ export async function getAllHosts(
         });
 
         const queryString = params.toString();
-        const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/admin/hosts/all${queryString ? `?${queryString}` : ''}`;
+        const endpoint = `/admin/hosts/all${queryString ? `?${queryString}` : ''}`;
 
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-        });
+        const response = await serverFetch.get(endpoint);
 
         if (!response.ok) {
-            throw new Error(`Failed to fetch hosts: ${response.statusText}`);
+            const errorData = await response.json();
+            throw new Error(`Failed to fetch hosts: ${errorData.message || response.statusText}`);
         }
 
         return await response.json();
-    } catch (error) {
-        console.error('Error fetching hosts:', error);
+    } catch (error: any) {
+        console.log('Error fetching hosts:', error);
         return {
             success: false,
-            message: 'Failed to fetch hosts',
+            message: error.message || 'Failed to fetch hosts',
             data: [],
             meta: { page: 1, limit: 10, total: 0 }
         };
@@ -135,26 +132,21 @@ export async function getAllAdmins(
         });
 
         const queryString = params.toString();
-        const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/admin/${queryString ? `?${queryString}` : ''}`;
+        const endpoint = `/admin${queryString ? `?${queryString}` : ''}`;
 
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-        });
+        const response = await serverFetch.get(endpoint);
 
         if (!response.ok) {
-            throw new Error(`Failed to fetch admins: ${response.statusText}`);
+            const errorData = await response.json();
+            throw new Error(`Failed to fetch admins: ${errorData.message || response.statusText}`);
         }
 
         return await response.json();
-    } catch (error) {
-        console.error('Error fetching admins:', error);
+    } catch (error: any) {
+        console.log('Error fetching admins:', error);
         return {
             success: false,
-            message: 'Failed to fetch admins',
+            message: error.message || 'Failed to fetch admins',
             data: [],
             meta: { page: 1, limit: 10, total: 0 }
         };
@@ -184,26 +176,21 @@ export async function getAllUsers(
         });
 
         const queryString = params.toString();
-        const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/admin/users/all/${queryString ? `?${queryString}` : ''}`;
+        const endpoint = `/admin/users/all${queryString ? `?${queryString}` : ''}`;
 
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-        });
+        const response = await serverFetch.get(endpoint);
 
         if (!response.ok) {
-            throw new Error(`Failed to fetch users: ${response.statusText}`);
+            const errorData = await response.json();
+            throw new Error(`Failed to fetch users: ${errorData.message || response.statusText}`);
         }
 
         return await response.json();
-    } catch (error) {
-        console.error('Error fetching users:', error);
+    } catch (error: any) {
+        console.log('Error fetching users:', error);
         return {
             success: false,
-            message: 'Failed to fetch users',
+            message: error.message || 'Failed to fetch users',
             data: [],
             meta: { page: 1, limit: 10, total: 0 }
         };

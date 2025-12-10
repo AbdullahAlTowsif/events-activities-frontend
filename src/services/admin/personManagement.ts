@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { serverFetch } from "@/lib/server-fetch";
+
 export interface IPerson {
     id: string;
     email: string;
@@ -58,50 +60,42 @@ export interface IUpdatePersonData {
     profilePhoto?: string;
 }
 
+// Helper function to build query string
+function buildQueryString(params: Record<string, any>): string {
+    const searchParams = new URLSearchParams();
+
+    Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+            searchParams.append(key, value.toString());
+        }
+    });
+
+    const queryString = searchParams.toString();
+    return queryString ? `?${queryString}` : '';
+}
+
 // Get all persons with filters and pagination
 export async function getAllPersons(
     filters: IPersonFilters = {},
     options: IPaginationOptions = {}
 ): Promise<IPersonsResponse> {
     try {
-        // Build query parameters
-        const params = new URLSearchParams();
+        const queryString = buildQueryString({ ...filters, ...options });
+        const endpoint = `/admin/persons/all${queryString}`;
 
-        // Add filters
-        Object.entries(filters).forEach(([key, value]) => {
-            if (value !== undefined && value !== '') {
-                params.append(key, value.toString());
-            }
-        });
-
-        // Add pagination options
-        Object.entries(options).forEach(([key, value]) => {
-            if (value !== undefined && value !== '') {
-                params.append(key, value.toString());
-            }
-        });
-
-        const queryString = params.toString();
-        const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/admin/persons/all${queryString ? `?${queryString}` : ''}`;
-
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-        });
+        const response = await serverFetch.get(endpoint);
 
         if (!response.ok) {
-            throw new Error(`Failed to fetch persons: ${response.statusText}`);
+            const errorData = await response.json();
+            throw new Error(`Failed to fetch persons: ${errorData.message || response.statusText}`);
         }
 
         return await response.json();
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching persons:', error);
         return {
             success: false,
-            message: 'Failed to fetch persons',
+            message: error.message || 'Failed to fetch persons',
             data: [],
             meta: { page: 1, limit: 10, total: 0 }
         };
@@ -115,19 +109,20 @@ export async function getPersonById(personId: string): Promise<{
     data?: any
 }> {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/admin/${personId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-        });
+        const response = await serverFetch.get(`/admin/${personId}`);
 
-        const result = await response.json();
-        return result;
-    } catch (error) {
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Failed to fetch person: ${errorData.message || response.statusText}`);
+        }
+
+        return await response.json();
+    } catch (error: any) {
         console.error('Error fetching person:', error);
-        return { success: false, message: 'Failed to fetch person' };
+        return {
+            success: false,
+            message: error.message || 'Failed to fetch person'
+        };
     }
 }
 
@@ -137,23 +132,27 @@ export async function updatePersonById(
     data: IUpdatePersonData
 ): Promise<{ success: boolean; message: string; data?: any }> {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/admin/person/${personId}`, {
-            method: 'PATCH',
+        const response = await serverFetch.patch(`/admin/person/${personId}`, {
             headers: {
                 'Content-Type': 'application/json',
             },
-            credentials: 'include',
             body: JSON.stringify(data),
         });
 
-        const result = await response.json();
-        return result;
-    } catch (error) {
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Failed to update person: ${errorData.message || response.statusText}`);
+        }
+
+        return await response.json();
+    } catch (error: any) {
         console.error('Error updating person:', error);
-        return { success: false, message: 'Failed to update person' };
+        return {
+            success: false,
+            message: error.message || 'Failed to update person'
+        };
     }
 }
-
 
 // Soft delete person by ID
 export async function softDeletePersonById(personId: string): Promise<{
@@ -162,19 +161,20 @@ export async function softDeletePersonById(personId: string): Promise<{
     data?: any
 }> {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/admin/person/${personId}/soft`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-        });
+        const response = await serverFetch.delete(`/admin/person/${personId}/soft`);
 
-        const result = await response.json();
-        return result;
-    } catch (error) {
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Failed to delete person: ${errorData.message || response.statusText}`);
+        }
+
+        return await response.json();
+    } catch (error: any) {
         console.error('Error soft deleting person:', error);
-        return { success: false, message: 'Failed to delete person' };
+        return {
+            success: false,
+            message: error.message || 'Failed to delete person'
+        };
     }
 }
 
@@ -185,19 +185,20 @@ export async function restorePersonById(personId: string): Promise<{
     data?: any
 }> {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/admin/person/${personId}/restore`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-        });
+        const response = await serverFetch.patch(`/admin/person/${personId}/restore`);
 
-        const result = await response.json();
-        return result;
-    } catch (error) {
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Failed to restore person: ${errorData.message || response.statusText}`);
+        }
+
+        return await response.json();
+    } catch (error: any) {
         console.error('Error restoring person:', error);
-        return { success: false, message: 'Failed to restore person' };
+        return {
+            success: false,
+            message: error.message || 'Failed to restore person'
+        };
     }
 }
 
@@ -216,21 +217,19 @@ export async function getPersonStats(): Promise<{
     }
 }> {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/admin/persons/stats`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-        });
+        const response = await serverFetch.get('/admin/persons/stats');
 
-        const result = await response.json();
-        return result;
-    } catch (error) {
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Failed to fetch stats: ${errorData.message || response.statusText}`);
+        }
+
+        return await response.json();
+    } catch (error: any) {
         console.error('Error fetching person stats:', error);
         return {
             success: false,
-            message: 'Failed to fetch stats',
+            message: error.message || 'Failed to fetch stats',
             data: {
                 total: 0,
                 users: 0,

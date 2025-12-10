@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { serverFetch } from "@/lib/server-fetch";
+
 export interface IHostApplication {
     id: string;
     userEmail: string;
@@ -37,24 +39,19 @@ export interface IUpdateApplicationStatusData {
 // Get all pending applications
 export async function getAllApplications(): Promise<IHostApplicationsResponse> {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/host/admin/applications`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-        });
+        const response = await serverFetch.get('/host/admin/applications');
 
         if (!response.ok) {
-            throw new Error(`Failed to fetch applications: ${response.statusText}`);
+            const errorData = await response.json();
+            throw new Error(`Failed to fetch applications: ${errorData.message || response.statusText}`);
         }
 
         return await response.json();
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching applications:', error);
         return {
             success: false,
-            message: 'Failed to fetch applications',
+            message: error.message || 'Failed to fetch applications',
             data: []
         };
     }
@@ -66,19 +63,24 @@ export async function updateApplicationStatus(
     data: IUpdateApplicationStatusData
 ): Promise<{ success: boolean; message: string; data?: any }> {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/host/${applicationId}/status`, {
-            method: 'PUT',
+        const response = await serverFetch.put(`/host/${applicationId}/status`, {
             headers: {
                 'Content-Type': 'application/json',
             },
-            credentials: 'include',
             body: JSON.stringify(data),
         });
 
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Failed to update application status: ${errorData.message || response.statusText}`);
+        }
+
         return await response.json();
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error updating application status:', error);
-        return { success: false, message: 'Failed to update application status' };
+        return {
+            success: false,
+            message: error.message || 'Failed to update application status'
+        };
     }
 }
-
