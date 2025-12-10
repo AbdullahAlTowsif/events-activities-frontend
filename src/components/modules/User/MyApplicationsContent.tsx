@@ -177,16 +177,10 @@ export default function MyApplicationsContent() {
                                 You haven&apos;t applied to become a host yet. Start your journey by submitting an application!
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                <Link href="/apply">
+                                <Link href="/become-host">
                                     <Button className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700" size="lg">
                                         <UserPlus className="w-5 h-5 mr-2" />
                                         Apply to Become a Host
-                                    </Button>
-                                </Link>
-                                <Link href="/hosts">
-                                    <Button variant="outline" size="lg">
-                                        <Shield className="w-5 h-5 mr-2" />
-                                        View Hosts
                                     </Button>
                                 </Link>
                             </div>
@@ -231,7 +225,7 @@ export default function MyApplicationsContent() {
                                 <p className="text-slate-600 mb-6 max-w-sm mx-auto">
                                     You haven&apos;t submitted any applications yet.
                                 </p>
-                                <Link href="/apply">
+                                <Link href="/become-host">
                                     <Button className="bg-linear-to-r from-blue-600 to-purple-600">
                                         Submit Your First Application
                                     </Button>

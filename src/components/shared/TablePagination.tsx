@@ -18,6 +18,7 @@ interface TablePaginationProps {
 }
 
 const TablePagination = ({ currentPage, totalPages }: TablePaginationProps) => {
+    // console.log(currentPage, totalPages);
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const searchParams = useSearchParams();
@@ -61,6 +62,7 @@ const TablePagination = ({ currentPage, totalPages }: TablePaginationProps) => {
 
             <div className="flex items-center gap-1">
                 {Array.from({ length: Math.min(5, totalPages) }, (_, index) => {
+                    console.log("index", index);
                     let pageNumber;
 
                     if (totalPages <= 5) {

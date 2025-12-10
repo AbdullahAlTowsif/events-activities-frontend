@@ -25,7 +25,7 @@ export default function DashboardContent() {
         try {
             setLoading(true);
             const data = await getUserInfo();
-            console.log(data);
+            // console.log(data);
             setUserInfo(data);
         } catch (error) {
             console.error("Failed to fetch user info:", error);

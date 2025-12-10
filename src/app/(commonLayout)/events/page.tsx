@@ -7,7 +7,7 @@ import { Suspense } from "react";
 
 export const revalidate = 600;
 
-const ConsultationPage = async ({
+const EventPage = async ({
     searchParams,
 }: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -19,6 +19,7 @@ const ConsultationPage = async ({
     const [eventsResponse] = await Promise.all([
         getEvents(queryString),
     ]);
+    // console.log("eventsResponse", eventsResponse);
 
     const events = eventsResponse?.data || [];
 
@@ -34,7 +35,7 @@ const ConsultationPage = async ({
                     </p>
                 </div>
 
-                {/* Doctor Grid */}
+                {/* Event Grid */}
                 <Suspense fallback={<TableSkeleton columns={3} />}>
                     <EventGrid events={events} />
                 </Suspense>
@@ -42,11 +43,11 @@ const ConsultationPage = async ({
                 {/* Pagination */}
                 <TablePagination
                     currentPage={eventsResponse?.meta?.page || 1}
-                    totalPages={eventsResponse?.meta?.totalPage || 1}
+                    totalPages={Math.ceil(eventsResponse?.meta?.total / eventsResponse?.meta?.limit) || 1}
                 />
             </div>
         </div>
     );
 };
 
-export default ConsultationPage;
+export default EventPage;
