@@ -284,8 +284,8 @@ const CreateEventForm = () => {
                         )}
 
                         <Input
-                            id="images"
-                            name="images"
+                            id="file"
+                            name="file"
                             type="file"
                             accept="image/*"
                             multiple

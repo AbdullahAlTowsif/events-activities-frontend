@@ -47,7 +47,7 @@ const CreateEventPage = () => {
                                     </div>
                                 </div>
 
-                                <Suspense fallback={<div>Loading search params...</div>}>
+                                <Suspense fallback={<div>Loading ...</div>}>
                                     <CreateEventForm />
                                 </Suspense>
                             </CardContent>

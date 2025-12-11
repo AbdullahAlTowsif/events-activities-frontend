@@ -10,7 +10,7 @@ export const createEventValidationSchema = z.object({
     maxParticipants: z.number().optional(),
     joiningFee: z.number().optional(),
     currency: z.string().optional(),
-    images: z.array(z.string()).optional(),
+    images: z.string().optional(),
 });
 
 export const updateEventValidationSchema = z.object({
@@ -18,5 +18,5 @@ export const updateEventValidationSchema = z.object({
     maxParticipants: z.number().optional(),
     joiningFee: z.number().optional(),
     currency: z.string().optional(),
-    images: z.array(z.string()).optional(),
+    images: z.string().optional(),
 });

@@ -78,6 +78,8 @@ const EventContent = ({ event }: EventProfileContentProps) => {
                                     <Image
                                         src={event.images[0]}
                                         alt={event.title}
+                                        width={128}
+                                        height={128}
                                         className="h-full w-full object-cover"
                                     />
                                 ) : (
@@ -266,6 +268,8 @@ const EventContent = ({ event }: EventProfileContentProps) => {
                                 >
                                     <Image
                                         src={image}
+                                        width={100}
+                                        height={100}
                                         alt={`${event.title} - Image ${index + 1}`}
                                         className="h-full w-full object-cover"
                                     />

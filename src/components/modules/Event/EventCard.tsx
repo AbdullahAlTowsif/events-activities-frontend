@@ -1,92 +1,3 @@
-// "use client";
-// // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-// import { Button } from "@/components/ui/button";
-// import {
-//     Card,
-//     CardContent,
-//     CardDescription,
-//     CardFooter,
-//     CardHeader,
-//     CardTitle,
-// } from "@/components/ui/card";
-// import { Clock, DollarSign, Eye, Star } from "lucide-react";
-// import Link from "next/link";
-// import { IEvent } from "@/types/event.interface";
-
-// interface EventCard {
-//     event: IEvent;
-// }
-
-// export default function EventCard({ event }: EventCard) {
-
-//     return (
-//         <>
-//             <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-//                 <CardHeader className="pb-3">
-//                     <div className="flex items-start gap-4">
-//                         {/* <Avatar className="h-16 w-16">
-//                             <AvatarImage src={event.images || ""} alt={event.title} />
-//                             <AvatarFallback className="text-lg">
-//                                 {getInitials(event.title)}
-//                             </AvatarFallback>
-//                         </Avatar> */}
-
-//                         <div className="flex-1 min-w-0">
-//                             <CardTitle className="text-lg line-clamp-1">
-//                                 {event.title}
-//                             </CardTitle>
-//                             <CardDescription className="line-clamp-1">
-//                                 {event.type}
-//                             </CardDescription>
-
-//                             <div className="flex items-center gap-2 mt-2">
-//                                 <div className="flex items-center gap-1">
-//                                     <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-//                                     <span className="text-sm font-medium">
-//                                         {event.joiningFee?.toFixed(1) || "N/A"}
-//                                     </span>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </CardHeader>
-
-//                 <CardContent className="space-y-3 pb-3">
-//                     <div className="grid grid-cols-2 gap-3 text-sm">
-//                         <div className="flex items-center gap-2 text-muted-foreground">
-//                             <Clock className="h-4 w-4 shrink-0" />
-//                             <span className="truncate">{event.dateTime}</span>
-//                         </div>
-//                         <div className="flex items-center gap-2 text-muted-foreground">
-//                             <DollarSign className="h-4 w-4 shrink-0" />
-//                             <span className="font-semibold text-foreground">
-//                                 ${event.joiningFee}
-//                             </span>
-//                         </div>
-//                     </div>
-
-//                     <div className="text-sm">
-//                         <p className="font-medium mb-1">Qualification:</p>
-//                         <p className="text-muted-foreground line-clamp-2">
-//                             {event.hostEmail}
-//                         </p>
-//                     </div>
-//                 </CardContent>
-
-//                 <CardFooter className="pt-3 border-t flex gap-2">
-//                     <Link className="flex-1" href={`/consultation/doctor/${event.id}`}>
-//                         <Button variant="outline" className="w-full">
-//                             <Eye className="h-4 w-4 mr-2" />
-//                             View Details
-//                         </Button>
-//                     </Link>
-//                 </CardFooter>
-//             </Card>
-//         </>
-//     );
-// }
-
-
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -158,6 +69,8 @@ export default function EventCard({ event }: EventCardProps) {
                     <Image
                         src={event.images[0]}
                         alt={event.title}
+                        width={100}
+                        height={100}
                         className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                 ) : (

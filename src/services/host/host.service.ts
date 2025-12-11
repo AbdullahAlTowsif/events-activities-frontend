@@ -47,6 +47,7 @@ export const createEvent = async (_currentState: any, formData: any): Promise<an
         if (formData.get("file")) {
             newFormData.append("file", formData.get("file") as Blob);
         }
+        console.log("new form data event", newFormData);
 
         const res = await serverFetch.post("/event/create-event", {
             body: newFormData
