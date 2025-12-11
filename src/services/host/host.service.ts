@@ -39,7 +39,7 @@ export const createEvent = async (_currentState: any, formData: any): Promise<an
             joiningFee: Number(validatedPayload.joiningFee) || 0,
             currency: validatedPayload.currency || "BDT",
         }
-        console.log("event Data", eventData);
+        // console.log("event Data", eventData);
 
         const newFormData = new FormData();
         newFormData.append("data", JSON.stringify(eventData));
@@ -47,7 +47,7 @@ export const createEvent = async (_currentState: any, formData: any): Promise<an
         if (formData.get("file")) {
             newFormData.append("file", formData.get("file") as Blob);
         }
-        console.log("new form data event", newFormData);
+        // console.log("new form data event", newFormData);
 
         const res = await serverFetch.post("/event/create-event", {
             body: newFormData
