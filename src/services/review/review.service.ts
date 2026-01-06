@@ -1,3 +1,5 @@
+import { serverFetch } from "@/lib/server-fetch";
+
 export interface ICreateReviewPayload {
     rating: number;
     comment?: string;
@@ -39,14 +41,15 @@ export async function createReview(
     payload: ICreateReviewPayload
 ): Promise<IReviewResponse> {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/event/${eventId}/review`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify(payload),
-        });
+        const response = await serverFetch.post(
+            `/event/${eventId}/review`,
+            {
+                body: JSON.stringify(payload),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
 
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
