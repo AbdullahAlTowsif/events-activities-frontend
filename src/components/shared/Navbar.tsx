@@ -48,6 +48,7 @@ const Navbar = async () => {
         { href: "/dashboard", label: "Dashboard", roles: ["USER"] },
         { href: "/host/dashboard", label: "Dashboard", roles: ["HOST"] },
         { href: "/admin/dashboard", label: "Dashboard", roles: ["ADMIN"] },
+        { href: "/ai-recommendations", label: "🎯 AI For You", roles: ["USER"] },
     ];
 
     // Filter links based on user role
