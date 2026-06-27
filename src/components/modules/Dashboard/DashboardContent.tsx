@@ -166,7 +166,8 @@ export default function DashboardContent() {
         <>
             {/* Header */}
             <div className="mb-8">
-                <h1 className="text-3xl font-bold text-slate-900 mb-2">Welcome back, {getRoleBasedName(userInfo.role)}!</h1>
+                {/* <h1 className="text-3xl font-bold text-slate-900 mb-2">Welcome back, {getRoleBasedName(userInfo.role)}!</h1> */}
+                <h1 className="text-3xl font-bold text-slate-900 mb-2">Welcome back, !</h1>
                 <p className="text-slate-600">Here&apos;s your personal dashboard with all your account information</p>
             </div>
 
@@ -214,8 +215,13 @@ export default function DashboardContent() {
                                         <InfoItem
                                             icon={<Mail className="w-4 h-4" />}
                                             label="Email Address"
-                                            value={userInfo.email}
+                                            value={"userInfo.email"}
                                         />
+                                        {/* <InfoItem
+                                            icon={<Mail className="w-4 h-4" />}
+                                            label="Email Address"
+                                            value={userInfo.email}
+                                        /> */}
                                         <InfoItem
                                             icon={<Phone className="w-4 h-4" />}
                                             label="Contact Number"
